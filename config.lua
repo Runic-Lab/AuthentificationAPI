@@ -1,0 +1,15 @@
+local config
+config = require("lapis.config").config
+return config("development", function()
+  server("nginx")
+  code_cache("off")
+  num_workers("1")
+  port("8081")
+  return mysql(function()
+    backend("resty_mysql")
+    host("127.0.0.1")
+    user("naxxramas_user")
+    password("naxxramas_passwd")
+    return database("335_production_authentification")
+  end)
+end)
