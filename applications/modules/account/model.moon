@@ -40,4 +40,17 @@ class Account extends BaseModel
 
         return 2, account.online == online
 
+    @delete_account: (id) ->
+        account = Account\find id
+
+        unless account
+            return 1, false
+
+        success = pcall -> account\delete!()
+        unless success
+            return 2, false
+
+        return 0, true
+
+
 Model = Account

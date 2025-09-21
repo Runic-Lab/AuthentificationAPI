@@ -55,3 +55,23 @@ Controller.create = (app) ->
 	return System.Response.send 200, req_time, account, msg
 
 return Controller
+
+Controller.delete = (app) ->
+  id = app.params.id
+
+  unless id
+    return System.Response.send 400, req_time, "Please, set an id"
+
+  id = tonumber id
+  unless type(id) == "number"
+    return System.Response.send 400, req_time, "Please, set a number"
+
+  code, success = require("applications.modules.account.model")\delete_account id
+
+  if code == 1 and success == false
+    return System.Response.send 400, req_time, "Account id invalid"
+
+  if code == 2 and success == false
+    return System.Response.send 400, req_time, "Internal error"
+
+  return System.Response.send 200, req_time, "Deleted successfully"
